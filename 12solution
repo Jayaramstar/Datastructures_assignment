@@ -1,0 +1,60 @@
+package datastructures;
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null || k <= 1) {
+            return head;
+        }
+
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode prevGroupEnd = dummy;
+
+        while (true) {
+            int count = 0;
+            ListNode current = head;
+
+            // Find the end of the current group of k nodes
+            while (current != null && count < k) {
+                current = current.next;
+                count++;
+            }
+
+            // If there are less than k nodes left, break the loop
+            if (count < k) {
+                break;
+            }
+
+            // Reverse the current group of k nodes
+            ListNode prev = null;
+            ListNode next = null;
+            current = head;
+
+            for (int i = 0; i < k; i++) {
+                next = current.next;
+                current.next = prev;
+                prev = current;
+                current = next;
+            }
+
+            // Connect the reversed group to the previous group
+            prevGroupEnd.next = prev;
+            head.next = current;
+            prevGroupEnd = head;
+            head = current;
+        }
+
+        return dummy.next;
+    }
+}
+
