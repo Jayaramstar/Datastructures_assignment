@@ -1,0 +1,53 @@
+package datastructures;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Test {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int m = in.nextInt();
+        int maxUnique = 0;
+
+        HashMap<Integer, Integer> frequencyMap = new HashMap<>();
+        Deque<Integer> deque = new ArrayDeque<>();
+
+        for (int i = 0; i < n; i++) {
+            int num = in.nextInt();
+            deque.addLast(num);
+
+            // Check if the key exists in the HashMap
+            Integer freq = frequencyMap.get(num);
+            if (freq != null) {
+                frequencyMap.put(num, freq + 1);
+            } else {
+                frequencyMap.put(num, 1);
+            }
+
+            // Shrink the window if its size exceeds M
+            if (deque.size() > m) {
+                int leftNum = deque.removeFirst();
+                freq = frequencyMap.get(leftNum);
+                frequencyMap.put(leftNum, freq - 1);
+                if (freq - 1 == 0) {
+                    frequencyMap.remove(leftNum);
+                }
+            }
+
+            maxUnique = Math.max(maxUnique, frequencyMap.size());
+
+            // If the maximum unique count can't be larger than M, break early
+            if (maxUnique == m) {
+                break;
+            }
+        }
+
+        in.close();
+
+        System.out.println(maxUnique);
+    }
+}
+
