@@ -1,0 +1,42 @@
+package datastructures;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class MissingNumbersFinder {
+    public static List<Integer> findMissingNumbers(int[] arrNum) {
+        List<Integer> missingNumbers = new ArrayList<>();
+        int n = arrNum.length;
+
+        for (int i = 1; i < n; i++) {
+            int diff = arrNum[i] - arrNum[i - 1];
+            if (diff > 1) {
+                for (int j = 1; j < diff; j++) {
+                    missingNumbers.add(arrNum[i - 1] + j);
+                }
+            }
+        }
+
+        return missingNumbers;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter the number of elements in the array: ");
+        int n = scanner.nextInt();
+        
+        int[] arrNum = new int[n];
+        System.out.println("Enter the elements of the array:");
+
+        for (int i = 0; i < n; i++) {
+            arrNum[i] = scanner.nextInt();
+        }
+        scanner.close();
+        
+        List<Integer> missingNumbers = findMissingNumbers(arrNum);
+        System.out.println("Missing numbers: " + missingNumbers);
+    }
+}
+
