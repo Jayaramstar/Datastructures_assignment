@@ -1,0 +1,44 @@
+package datastructures;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class CumulativeMultiple {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+
+        int[] arrNum = new int[n];
+
+        try {
+            System.out.println("Enter " + n + " elements:");
+            for (int i = 0; i < n; i++) {
+                arrNum[i] = scanner.nextInt();
+            }
+
+            int[] cumulativeMultiple = calculateCumulativeMultiple(arrNum);
+
+            // Print the resulting array
+            System.out.println("arrNum = " + Arrays.toString(cumulativeMultiple));
+        } catch (Exception e) {
+            System.out.println("An exception occurred: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+
+    public static int[] calculateCumulativeMultiple(int[] arr) {
+        int n = arr.length;
+        int[] cumulativeMultiple = new int[n];
+
+        // Calculate cumulative multiple and update the array
+        cumulativeMultiple[0] = arr[0];
+        for (int i = 1; i < n; i++) {
+            cumulativeMultiple[i] = cumulativeMultiple[i - 1] * arr[i];
+        }
+
+        return cumulativeMultiple;
+    }
+}
